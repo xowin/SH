@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egghunt password</title>
+    <style >
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #76ecfb, #c1fda0, #f298f4);
+            background-size: 300% 300%;
+            animation: gradientShift 5s ease infinite;
+            background-repeat: no-repeat;
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #f298f4;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            margin-bottom: 20px;
+            border: 2px solid #f298f4;
+            opacity: 0.9;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #9386e6;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #f298f4;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+        footer {
+            margin-top: 50px;
+            font-size: 0.8em;
+            color: #777;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+            input[type="text"] {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        function launchConfetti() {
+            const confettiContainer = document.createElement("div");
+            confettiContainer.style.position = "fixed";
+            confettiContainer.style.top = "0";
+            confettiContainer.style.left = "0";
+            confettiContainer.style.width = "100%";
+            confettiContainer.style.height = "100%";
+            confettiContainer.style.pointerEvents = "none";
+            confettiContainer.style.zIndex = "1000";
+            document.body.appendChild(confettiContainer);
+
+            const confettiCount = 150;
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement("div");
+                confetti.style.position = "absolute";
+                confetti.style.width = "10px";
+                confetti.style.height = "10px";
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.borderRadius = "50%";
+                confetti.style.top = `${Math.random() * 100}%`;
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.animation = `fall ${Math.random() * 3 + 2}s ease-out forwards`;
+                confettiContainer.appendChild(confetti);
+            }
+
+            setTimeout(() => {
+                document.body.removeChild(confettiContainer);
+            }, 5000);
+        }
+
+        const style = document.createElement("style");
+        style.textContent = `
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }`;
+        document.head.appendChild(style);
+    </script>
+</head>
+<body>
+    <h1>Scavenger hunt password</h1>
+    <p>Welcome to the Scavenger hunt password page. Please enter the password to win the prize!</p>
+    <label for="password">Password:</label>
+    <input type="text" id="password" name="password" placeholder="Enter password" required>
+    <button id="submit">Submit</button>
+    <p id="message"></p>
+    <script>
+        const correctPassword = "nest2023"; 
+        const passwordInput = document.getElementById("password");
+        const submitButton = document.getElementById("submit");
+        const message = document.getElementById("message");
+        submitButton.addEventListener("click", () => {
+            const userInput = passwordInput.value.toLowerCase();
+            if (userInput === correctPassword) {
+                message.textContent = "Congratulations! You entered the correct password!";
+                message.style.color = "green";
+                launchConfetti(); // Call the confetti function here
+            } else if (userInput.length > 0) {
+                let similarity = 0;
+                for (let i = 0; i < Math.min(userInput.length, correctPassword.length); i++) {
+                    if (userInput[i] === correctPassword[i]) {
+                        similarity++;
+                    }
+                }
+                if (similarity >= correctPassword.length - 2) {
+                    message.textContent = "You're very close! Keep trying!";
+                    message.style.color = "orange";
+                } else {
+                    message.textContent = "Incorrect password. Try again.";
+                    message.style.color = "red";
+                }
+            } else {
+                message.textContent = "Please enter a password.";
+                message.style.color = "red";
+            }
+        });
+    </script>
+
+    <footer>
+        <p>&copy; Created by Christian Rodrigues</p>
+    </footer>
+    
+</body>
+</html>
